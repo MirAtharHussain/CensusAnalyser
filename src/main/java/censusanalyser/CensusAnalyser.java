@@ -46,12 +46,9 @@ public class CensusAnalyser {
             csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
             CsvToBean<IndiaStateCodeCSV> csvToBean = csvToBeanBuilder.build();
             Iterator<IndiaStateCodeCSV> censusCSVIterator = csvToBean.iterator();
-            int namOfEateries = 0;
-            while (censusCSVIterator.hasNext()) {
-                namOfEateries++;
-                IndiaStateCodeCSV censusData = censusCSVIterator.next();
-            }
-            return namOfEateries;
+            Iterable<IndiaStateCodeCSV> csvIterable = () -> censusCSVIterator;
+            int numOfEntries = (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
+            return numOfEntries;
         } catch (IOException e) {
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
