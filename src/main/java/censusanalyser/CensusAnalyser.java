@@ -53,6 +53,7 @@ public class CensusAnalyser {
         } catch (RuntimeException e) {
             throw new CensusAnalyserException(e.getMessage(), CensusAnalyserException.ExceptionType.DELIMITER_HEADER_INCORRECTINFILE);
         }
+
     }
 }
 
