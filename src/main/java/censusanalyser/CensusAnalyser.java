@@ -16,8 +16,9 @@ public class CensusAnalyser {
 
         if (!csvFilePath.contains(".csv")){
             throw new CensusAnalyserException("Enter proper file Extension",CensusAnalyserException.ExceptionType.TYPE_EXTENSION_WRONG);
-
         }
+       /* if (!csvFilePath.contains(","))
+            throw new CensusAnalyserException("Enter delimiter in betwwen",CensusAnalyserException.ExceptionType.DELIMITER_INCORRECT_INFILE);*/
         try {
             Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
             CsvToBeanBuilder<IndiaCensusCSV> csvToBeanBuilder = new CsvToBeanBuilder<>(reader);
@@ -35,6 +36,8 @@ public class CensusAnalyser {
         } catch (IOException e) {
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+        }catch (RuntimeException e){
+            throw new CensusAnalyserException("Enter delimiter in betwwen",CensusAnalyserException.ExceptionType.DELIMITER_INCORRECT_INFILE);
         }
     }
 }
