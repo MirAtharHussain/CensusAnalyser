@@ -106,4 +106,14 @@ public class CensusAnalyserTest {
          Assert.assertEquals(CensusAnalyserException.ExceptionType.DELIMITER_HEADER_INCORRECTINFILE,e.type);
         }
     }
+
+    @Test
+    public void givenStateCodeCSVFile_WhenHeaderIncorrect_ReturnException() {
+        CensusAnalyser censusAnalyser = new CensusAnalyser();
+        try {
+            censusAnalyser.loadIndianStateCodeData(STATECODE_DELIMITER_HEADER);
+        } catch (CensusAnalyserException e) {
+            Assert.assertEquals(CensusAnalyserException.ExceptionType.DELIMITER_HEADER_INCORRECTINFILE,e.type);
+        }
+    }
 }
