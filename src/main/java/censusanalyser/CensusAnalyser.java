@@ -10,7 +10,14 @@ import java.nio.file.Paths;
 import java.util.Iterator;
 
 public class CensusAnalyser {
+
+
     public int loadIndiaCensusData(String csvFilePath) throws CensusAnalyserException {
+
+        if (!csvFilePath.contains(".csv")){
+            throw new CensusAnalyserException("Enter proper file Extension",CensusAnalyserException.ExceptionType.TYPE_EXTENSION_WRONG);
+
+        }
         try {
             Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
             CsvToBeanBuilder<IndiaCensusCSV> csvToBeanBuilder = new CsvToBeanBuilder<>(reader);
