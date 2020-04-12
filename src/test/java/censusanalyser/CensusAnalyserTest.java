@@ -11,6 +11,7 @@ public class CensusAnalyserTest {
     private static final String TYPE_INCORRECT_FILE="./src/test/resources/IndiaStateCensusData.pdf";
     private static final String DElIMITER_INCORRECT="./src/test/resources/StateCensusData.csv";
 
+
     @Test
     public void givenIndianCensusCSVFileReturnsCorrectRecords() {
         try {
@@ -49,6 +50,16 @@ public class CensusAnalyserTest {
             censusAnalyser.loadIndiaCensusData(DElIMITER_INCORRECT);
         } catch (CensusAnalyserException e) {
             Assert.assertEquals(CensusAnalyserException.ExceptionType.DELIMITER_INCORRECT_INFILE,e.type);
+        }
+    }
+
+   @Test
+    public void givenStateCensusCSVFile_WhenHeaderIncorrect_ReturnsCustomException() {
+        CensusAnalyser censusAnalyser = new CensusAnalyser();
+        try {
+            censusAnalyser.loadIndiaCensusData(DElIMITER_INCORRECT);
+        } catch (CensusAnalyserException e) {
+            Assert.assertNotEquals(CensusAnalyserException.ExceptionType.HEADER_NOTMATCHED,e.type);
         }
     }
 }
