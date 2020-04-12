@@ -12,6 +12,7 @@ public class CensusAnalyserTest {
     private static final String DElIMITER_HEADER_INCORRECT="./src/test/resources/StateCensusData.csv";
     private static final String STATE_CODE_CSV_FILE_PATH = "./src/test/resources/IndiaStateCode.csv";
     private static final String STATE_CODE_CSV_WRONG_FILE_PATH = "./src/main/resources/IndiaStateCode.csv";
+    private static final String STATECODE_TYPE_INCORRECT = "./src/test/resources/IndiaStateCode.csv";
 
 
     @Test
@@ -83,5 +84,15 @@ public class CensusAnalyserTest {
             exceptionRule.expect(CensusAnalyserException.class);
             censusAnalyser.loadIndianStateCodeData(STATE_CODE_CSV_WRONG_FILE_PATH);
         } catch (CensusAnalyserException e) { }
+    }
+
+    @Test
+    public void givenStateCodeCSVFile_WhenFileTypeIncorrect_ReturnException() {
+        CensusAnalyser censusAnalyser = new CensusAnalyser();
+        try {
+            censusAnalyser.loadIndianStateCodeData(STATECODE_TYPE_INCORRECT);
+        } catch (CensusAnalyserException e) {
+            Assert.assertEquals(CensusAnalyserException.ExceptionType.TYPE_EXTENSION_WRONG,e.type);
+        }
     }
 }
