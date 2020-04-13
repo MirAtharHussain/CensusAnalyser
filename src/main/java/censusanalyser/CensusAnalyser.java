@@ -27,6 +27,8 @@ public class CensusAnalyser {
                     CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
         }catch (RuntimeException e){
             throw new CensusAnalyserException("Enter delimiter in betwwen",CensusAnalyserException.ExceptionType.DELIMITER_HEADER_INCORRECTINFILE);
+        }catch (CSVBuilderException e){
+            throw new CensusAnalyserException(e.getMessage(),e.type.name());
         }
     }
     public int loadIndianStateCodeData(String csvFilePath) throws CensusAnalyserException {
@@ -41,6 +43,8 @@ public class CensusAnalyser {
                     CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
         }catch (RuntimeException e){
             throw new CensusAnalyserException("Enter delimiter in betwwen",CensusAnalyserException.ExceptionType.DELIMITER_HEADER_INCORRECTINFILE);
+        }catch (CSVBuilderException e){
+            throw new CensusAnalyserException(e.getMessage(),e.type.name());
         }
 
     }
