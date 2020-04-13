@@ -26,6 +26,8 @@ public class CensusAnalyser {
                     CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
         }catch (RuntimeException e){
             throw new CensusAnalyserException("Enter delimiter in betwwen",CensusAnalyserException.ExceptionType.DELIMITER_HEADER_INCORRECTINFILE);
+        }catch (CSVBuilderException e){
+            throw new CensusAnalyserException(e.getMessage(),e.type.name());
         }
     }
 
@@ -39,8 +41,10 @@ public class CensusAnalyser {
         } catch (IOException e) {
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
-        } catch (RuntimeException e) {
-            throw new CensusAnalyserException(e.getMessage(), CensusAnalyserException.ExceptionType.DELIMITER_HEADER_INCORRECTINFILE);
+        }catch (RuntimeException e){
+            throw new CensusAnalyserException("Enter delimiter in betwwen",CensusAnalyserException.ExceptionType.DELIMITER_HEADER_INCORRECTINFILE);
+        }catch (CSVBuilderException e){
+            throw new CensusAnalyserException(e.getMessage(),e.type.name());
         }
 
     }
