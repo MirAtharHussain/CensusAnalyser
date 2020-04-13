@@ -20,11 +20,7 @@ public class CensusAnalyser {
         }
         try {
             Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
-            CsvToBeanBuilder<IndiaCensusCSV> csvToBeanBuilder = new CsvToBeanBuilder<>(reader);
-            csvToBeanBuilder.withType(IndiaCensusCSV.class);
-            csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
-            CsvToBean<IndiaCensusCSV> csvToBean = csvToBeanBuilder.build();
-            Iterator<IndiaCensusCSV> censusCSVIterator = csvToBean.iterator();
+            Iterator<IndiaCensusCSV> censusCSVIterator = this.getCSVFileIterator(reader,IndiaCensusCSV.class);
             Iterable<IndiaCensusCSV> csvIterable = () -> censusCSVIterator;
             int numOfEntries = (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
             return numOfEntries;
@@ -41,11 +37,7 @@ public class CensusAnalyser {
         if (!csvFilePath.contains(".csv"))
             throw new CensusAnalyserException("Enter proper file Extension", CensusAnalyserException.ExceptionType.TYPE_EXTENSION_WRONG);
         try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));) {
-            CsvToBeanBuilder<IndiaStateCodeCSV> csvToBeanBuilder = new CsvToBeanBuilder<>(reader);
-            csvToBeanBuilder.withType(IndiaStateCodeCSV.class);
-            csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
-            CsvToBean<IndiaStateCodeCSV> csvToBean = csvToBeanBuilder.build();
-            Iterator<IndiaStateCodeCSV> censusCSVIterator = csvToBean.iterator();
+            Iterator<IndiaStateCodeCSV> censusCSVIterator =this.getCSVFileIterator(reader,IndiaStateCodeCSV.class);
             Iterable<IndiaStateCodeCSV> csvIterable = () -> censusCSVIterator;
             int numOfEntries = (int) StreamSupport.stream(csvIterable.spliterator(), false).count();
             return numOfEntries;
@@ -59,4 +51,16 @@ public class CensusAnalyser {
         }
 
     }
+    private <E> Iterator<E> getCSVFileIterator(Reader reader,Class csvClass)  throws CensusAnalyserException {
+        try {
+            CsvToBeanBuilder<E> csvToBeanBuilder = new CsvToBeanBuilder<>(reader);
+            csvToBeanBuilder.withType(csvClass);
+            csvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
+            CsvToBean<E> csvToBean = csvToBeanBuilder.build();
+            return csvToBean.iterator();
+        } catch (IllegalStateException e) {
+            throw new CensusAnalyserException("Enter delimiter in betwwen", CensusAnalyserException.ExceptionType.UNABLE_TO_PARSE);
+        }
+    }
 }
+
