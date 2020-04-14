@@ -2,9 +2,6 @@ package censusanalyser;
 
 public class IndiaCensusDAO {
 
-    private  String stateCode;
-    private  int tin;
-    private int srNo;
     public int population;
     public int densityPerSqKm;
     public int areaInSqkm;
@@ -18,10 +15,5 @@ public class IndiaCensusDAO {
 
     }
 
-    public IndiaCensusDAO(IndiaStateCodeCSV indiaStateCodeCSV) {
-        this.srNo=indiaStateCodeCSV.srNo;
-        this.state=indiaStateCodeCSV.state;
-        this.tin=indiaStateCodeCSV.tin;
-        this.stateCode=indiaStateCodeCSV.stateCode;
-    }
+
 }

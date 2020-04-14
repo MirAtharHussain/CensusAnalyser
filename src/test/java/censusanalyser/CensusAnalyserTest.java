@@ -144,10 +144,9 @@ public class CensusAnalyserTest {
          try {
              CensusAnalyser censusAnalyser = new CensusAnalyser();
              censusAnalyser.loadIndianStateCodeData(STATE_CODE_CSV_FILE_PATH);
-             String sortedStateData = censusAnalyser.getStateWiseSortedCensusdata();
+             String sortedStateData = censusAnalyser.getStateCodeSortedStatedata();
              IndiaStateCodeCSV[] stateCodeCSVS = new Gson().fromJson(sortedStateData, IndiaStateCodeCSV[].class);
-             Assert.assertEquals("AN",stateCodeCSVS[0].stateCode);
-
+             Assert.assertEquals("AD",stateCodeCSVS[0].stateCode);
          } catch (CensusAnalyserException e) {
          }
     }
