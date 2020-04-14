@@ -4,7 +4,7 @@ public class IndiaStateDAO {
 
     public   String stateCode;
     public   int tin;
-    public int srNo;
+    public   int srNo;
     public String state;
 
     public IndiaStateDAO(IndiaStateCodeCSV indiaStateCodeCSV) {
