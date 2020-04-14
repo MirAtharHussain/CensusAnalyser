@@ -5,16 +5,12 @@ import com.bridgelabz.CSVBuild.CSVBuilderException;
 import com.bridgelabz.CSVBuild.CSVBuilderFactory;
 import com.bridgelabz.CSVBuild.ICSVBuilder;
 import com.google.gson.Gson;
-import com.opencsv.bean.CsvToBean;
-import com.opencsv.bean.CsvToBeanBuilder;
 
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.stream.StreamSupport;
 
 public class CensusAnalyser {
     List<IndiaCensusDAO> censusList = null;
@@ -84,16 +80,6 @@ public class CensusAnalyser {
         return sortedStateCensusJson;
     }
 
-    public String getStateCodeSortedStatedata() throws CensusAnalyserException {
-        if (stateList == null || stateList.size() == 0) {
-            throw new CensusAnalyserException("No census data",
-                    CensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
-        }
-        Comparator<IndiaCensusDAO> censusComparator = Comparator.comparing(census -> census.state);
-        this.sort2(censusComparator);
-        String sortedStateCodeJson = new Gson().toJson(stateList);
-        return sortedStateCodeJson;
-    }
     private void sort(Comparator<IndiaCensusDAO> censusComparator) {
         for (int i = 0; i < censusList.size() - 1; i++) {
             for (int j = 0; j < censusList.size() - i - 1; j++) {
@@ -184,6 +170,16 @@ public class CensusAnalyser {
         String sortedStateCensusJson = new Gson().toJson(censusList);
         return sortedStateCensusJson;
     }
+    public String getPopulationDensityAreaWiseSortedState() throws CensusAnalyserException {
+        if (censusList == null || censusList.size() == 0) {
+            throw new CensusAnalyserException("No census data",
+                    CensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
+        }
+        Comparator<IndiaCensusDAO> censusComparator = Comparator.comparing(census -> census.areaInSqKm);
+        this.sort2(censusComparator);
+        String sortedStateCensusJson = new Gson().toJson(censusList);
+        return sortedStateCensusJson;
+    }
     private void sort2(Comparator<IndiaCensusDAO> censusComparator) {
         for (int i = 0; i < censusList.size() - 1; i++) {
             for (int j = 0; j < censusList.size() - i - 1; j++) {
@@ -197,6 +193,7 @@ public class CensusAnalyser {
             }
         }
     }
+
 
 
 }
