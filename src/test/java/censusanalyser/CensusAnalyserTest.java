@@ -1,5 +1,6 @@
 package censusanalyser;
 
+import CommomCSV.CensusAnalyserCommonCSV;
 import com.google.gson.Gson;
 import org.junit.Assert;
 import org.junit.Test;
@@ -132,7 +133,12 @@ public class CensusAnalyserTest {
         }
     }
 
-   /* @Test
+    @Test
+    public void commonCSVFile_ForCensusAnalyser() {
+        CensusAnalyserCommonCSV censusAnalyserCommonCSV = new CensusAnalyserCommonCSV();
+        censusAnalyserCommonCSV.loadCesusCommonCSV(INDIA_CENSUS_CSV_FILE_PATH);
+    }
+    /* @Test
     public void givenIndianStateCode_WhenSortedCode_ShouldReturnSortedResult() {
         try {
             CensusAnalyser censusAnalyser = new CensusAnalyser();

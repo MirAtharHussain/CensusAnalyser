@@ -8,13 +8,12 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-public class censusAnalyserCommon {
+public class CensusAnalyserCommonCSV {
 
-        private static final String INDIA_CSV_FILE_PATH = "src/test/resources/IndiaStateCensusData.csv";
-
-        public static void main(String[] args) throws IOException {
-            try (
-                    Reader reader = Files.newBufferedReader(Paths.get(INDIA_CSV_FILE_PATH));
+       public void loadCesusCommonCSV(String csvFilePath)
+       {
+           try (
+                    Reader reader = Files.newBufferedReader(Paths.get(csvFilePath));
                     CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT
                             .withFirstRecordAsHeader()
                             .withIgnoreHeaderCase()
@@ -35,8 +34,10 @@ public class censusAnalyserCommon {
                     System.out.println("DensitySqKm : " + densityperSqKm);
                     System.out.println("---------------\n\n");
                 }
-            }
-        }
+            } catch (IOException e) {
+               e.printStackTrace();
+           }
+       }
 
     }
 
