@@ -141,7 +141,7 @@ public class CensusAnalyser {
     }
 
 
-    public int loadIndiaPopulationData(String csvFilePath) throws CensusAnalyserException {
+    public int loadIndiaPopulation_Density_AreaData(String csvFilePath) throws CensusAnalyserException {
         if (!csvFilePath.contains(".csv")) {
             throw new CensusAnalyserException("Enter proper file Extension",
                     CensusAnalyserException.ExceptionType.TYPE_EXTENSION_WRONG);
@@ -174,7 +174,16 @@ public class CensusAnalyser {
         String sortedStateCensusJson = new Gson().toJson(censusList);
         return sortedStateCensusJson;
     }
-
+    public String getPopulationDensityWiseSortedState() throws CensusAnalyserException {
+        if (censusList == null || censusList.size() == 0) {
+            throw new CensusAnalyserException("No census data",
+                    CensusAnalyserException.ExceptionType.NO_CENSUS_DATA);
+        }
+        Comparator<IndiaCensusDAO> censusComparator = Comparator.comparing(census -> census.densityPerSqKm);
+        this.sort2(censusComparator);
+        String sortedStateCensusJson = new Gson().toJson(censusList);
+        return sortedStateCensusJson;
+    }
     private void sort2(Comparator<IndiaCensusDAO> censusComparator) {
         for (int i = 0; i < censusList.size() - 1; i++) {
             for (int j = 0; j < censusList.size() - i - 1; j++) {
@@ -188,6 +197,8 @@ public class CensusAnalyser {
             }
         }
     }
+
+
 }
 
 
