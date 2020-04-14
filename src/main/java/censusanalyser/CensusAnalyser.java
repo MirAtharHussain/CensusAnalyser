@@ -1,6 +1,9 @@
 package censusanalyser;
 
 
+import com.bridgelabz.CSVBuild.CSVBuilderException;
+import com.bridgelabz.CSVBuild.CSVBuilderFactory;
+import com.bridgelabz.CSVBuild.ICSVBuilder;
 import com.google.gson.Gson;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
@@ -54,9 +57,9 @@ public class CensusAnalyser {
             /*csvStateCodeList = csvBuilder.getCSVFileList(reader, IndiaStateCodeCSV.class);//using list to sort values
             return csvStateCodeList.size();*/
             Iterator<IndiaStateCodeCSV> stateCSVIterator = csvBuilder.getCSVFileIterator(reader, IndiaStateCodeCSV.class);
-            while (stateCSVIterator.hasNext()) {
+           /* while (stateCSVIterator.hasNext()) {
                 csvStateCodeList.add(stateCSVIterator.next());
-            }
+            }*/
             return this.getCount(stateCSVIterator);
         } catch (IOException e) {
             throw new CensusAnalyserException(e.getMessage(),
