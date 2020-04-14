@@ -14,7 +14,7 @@ public class CensusAnalyserTest {
     private static final String DElIMITER_HEADER_INCORRECT = "./src/test/resources/StateCensusData.csv";
     private static final String STATE_CODE_CSV_FILE_PATH = "./src/test/resources/IndiaStateCode.csv";
     private static final String STATE_CODE_CSV_WRONG_FILE_PATH = "./src/main/resources/IndiaStateCode.csv";
-    private static final String STATECODE_TYPE_INCORRECT = "./src/test/resources/IndiaStateCode.csv";
+    private static final String STATECODE_TYPE_INCORRECT = "./src/test/resources/IndiaStateCode.pdf";
     private static final String STATECODE_DELIMITER_HEADER = "./src/test/resources/StateCode.csv";
 
 
@@ -138,14 +138,15 @@ public class CensusAnalyserTest {
         CensusAnalyserCommonCSV censusAnalyserCommonCSV = new CensusAnalyserCommonCSV();
         censusAnalyserCommonCSV.loadCesusCommonCSV(INDIA_CENSUS_CSV_FILE_PATH);
     }
-    /* @Test
+     @Test
     public void givenIndianStateCode_WhenSortedCode_ShouldReturnSortedResult() {
-        try {
-            CensusAnalyser censusAnalyser = new CensusAnalyser();
-            int codeWiseSortedStateData = censusAnalyser.getCodeWiseSortedStateData(STATE_CODE_CSV_FILE_PATH);
-            IndiaStateCodeCSV[] CodeCSV = new Gson().fromJson(String.valueOf(codeWiseSortedStateData), IndiaStateCodeCSV[].class);
-            Assert.assertEquals(01,CodeCSV[0]);
-        } catch (CensusAnalyserException e) {
-        }
-    }*/
+         try {
+             CensusAnalyser censusAnalyser = new CensusAnalyser();
+             String sortedStateData = censusAnalyser.getCodeWiseSortedStateData(STATE_CODE_CSV_FILE_PATH);
+             IndiaStateCodeCSV[] stateCodeCSVS = new Gson().fromJson(sortedStateData, IndiaStateCodeCSV[].class);
+             Assert.assertEquals("JK",stateCodeCSVS[14].stateCode);
+
+         } catch (CensusAnalyserException e) {
+         }
+    }
 }
