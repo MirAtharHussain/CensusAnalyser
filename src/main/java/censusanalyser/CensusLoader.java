@@ -12,14 +12,17 @@ import java.util.*;
 import java.util.stream.StreamSupport;
 
 public class CensusLoader {
-
-    Map<String, CensusDAO> censusMap = null;
-
-    public CensusLoader() {
-        this.censusMap =new HashMap<>();
+    public Map<String, CensusDAO> loadCensusData(CensusAnalyser.Country country, String... csvFilePath) throws CensusAnalyserException {
+        if (country.equals(CensusAnalyser.Country.INDIA))
+            return this.loadCensusData(IndiaCensusCSV.class,csvFilePath);
+        else if(country.equals(CensusAnalyser.Country.US))
+            return this.loadCensusData(USCensusCSV.class,csvFilePath);
+         else throw new CensusAnalyserException("Incorrect Country ",CensusAnalyserException.ExceptionType.INVALID_COUNTRY);
     }
-    public  <E> Map<String,CensusDAO> loadCensusData(Class<E> censusCSVClass,String... csvFilePath) throws CensusAnalyserException {
 
+    private  <E> Map<String,CensusDAO> loadCensusData(Class<E> censusCSVClass,String... csvFilePath) throws CensusAnalyserException {
+
+        Map<String, CensusDAO> censusMap = new HashMap<>();
         if (!csvFilePath[0].contains(".csv")) {
             throw new CensusAnalyserException("Enter proper file Extension",
                     CensusAnalyserException.ExceptionType.TYPE_EXTENSION_WRONG);
