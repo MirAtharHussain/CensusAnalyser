@@ -16,9 +16,7 @@ import java.util.stream.StreamSupport;
 
 public class CensusAnalyser {
     List<CensusDAO> censusList = null;
-    List<CensusDAO> stateList = null;
     Map<String, CensusDAO> censusMap = null;
-    Map<String,CensusDAO> USCensusMap=null;
     Map<String, CensusDAO> stateListMap = null;
 
     public CensusAnalyser() {
@@ -80,11 +78,6 @@ public class CensusAnalyser {
         List list = this.sortInAscendingOrder(stateCodeList, censusComparator);
         String sortedStateCodeJson = new Gson().toJson(list);
         return sortedStateCodeJson;
-    }
-
-    public int loadIndiaPopulation_Density_AreaData(String csvFilePath) throws CensusAnalyserException {
-        censusMap=new CensusLoader().loadCensusData(csvFilePath,IndiaCensusCSV.class);
-        return censusMap.size();
     }
 
     public String getPopulationWiseSortedState() throws CensusAnalyserException, IOException {
