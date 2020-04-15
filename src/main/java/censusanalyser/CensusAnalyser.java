@@ -23,9 +23,7 @@ public class CensusAnalyser {
 
     public CensusAnalyser() {
         this.censusList = new ArrayList<CensusDAO>();
-        this.USCensusMap = new HashMap<String, CensusDAO>();
         this.stateListMap = new HashMap<String, CensusDAO>();
-        this.stateList = new ArrayList<CensusDAO>();
     }
 
     public int loadIndiaCensusData(String csvFilePath) throws CensusAnalyserException {
