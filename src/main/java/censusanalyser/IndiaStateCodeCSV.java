@@ -17,6 +17,9 @@ public class IndiaStateCodeCSV {
     public String stateCode;
 
 
+    public IndiaStateCodeCSV() {
+    }
+
     public IndiaStateCodeCSV(String state, String stateCode) {
         this.state=state;
         this.stateCode=stateCode;

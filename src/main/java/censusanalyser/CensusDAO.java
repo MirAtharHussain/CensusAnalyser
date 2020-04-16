@@ -34,10 +34,11 @@ public class CensusDAO {
     public Object getCensusDTO(CensusAnalyser.Country country,String... s) {
         if (s.length==1)
             return new IndiaStateCodeCSV(state,stateCode);
-        if (country.equals(CensusAnalyser.Country.US))
-            return new USCensusCSV(state,stateCode,population,populationDensity,totalArea);
-        else
-            return new IndiaCensusCSV(state,population,populationDensity,totalArea);
-
+        else {
+            if (country.equals(CensusAnalyser.Country.US))
+                return new USCensusCSV(state, stateCode, population, populationDensity, totalArea);
+            else
+                return new IndiaCensusCSV(state, population, populationDensity, totalArea);
+        }
     }
 }

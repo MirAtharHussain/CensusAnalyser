@@ -51,8 +51,6 @@ public class CensusAnalyser {
                               sorted(censusComparator).
                               map(censusDAO -> censusDAO.getCensusDTO(country,"stateCode")).
                               collect(toCollection(ArrayList::new));
-    /*    List<CensusDAO> stateCodeList= censusMap.values().stream().collect(Collectors.toList());
-        List list = this.sortInAscendingOrder(stateCodeList, censusComparator);*/
         String sortedStateCodeJson = new Gson().toJson(censusDTOS);
         return sortedStateCodeJson;
     }
