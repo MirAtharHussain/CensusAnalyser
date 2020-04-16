@@ -16,13 +16,9 @@ public class IndiaStateCodeCSV {
     @CsvBindByName(column = "StateCode", required = true)
     public String stateCode;
 
-    @Override
-    public String toString() {
-        return "IndiaStateCodeCSV{" +
-                "srNo=" + srNo +
-                ", state='" + state + '\'' +
-                ", tin=" + tin +
-                ", stateCode='" + stateCode + '\'' +
-                '}';
+
+    public IndiaStateCodeCSV(String state, String stateCode) {
+        this.state=state;
+        this.stateCode=stateCode;
     }
 }

@@ -11,49 +11,17 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.StreamSupport;
 
-public class CensusLoader {
-    public Map<String, CensusDAO> loadCensusData(CensusAnalyser.Country country, String... csvFilePath) throws CensusAnalyserException {
-        if (country.equals(CensusAnalyser.Country.INDIA))
-            return this.loadCensusData(IndiaCensusCSV.class,csvFilePath);
-        else if(country.equals(CensusAnalyser.Country.US))
-            return this.loadCensusData(USCensusCSV.class,csvFilePath);
-         else throw new CensusAnalyserException("Incorrect Country ",CensusAnalyserException.ExceptionType.INVALID_COUNTRY);
-    }
-
-    private  <E> Map<String,CensusDAO> loadCensusData(Class<E> censusCSVClass,String... csvFilePath) throws CensusAnalyserException {
-
+public class IndiaCensusAdaptor  extends CensusAdaptor{
+    @Override
+    public Map<String, CensusDAO> loadCensusData( String... csvFilePath) throws CensusAnalyserException {
         Map<String, CensusDAO> censusMap = new HashMap<>();
-        if (!csvFilePath[0].contains(".csv")) {
-            throw new CensusAnalyserException("Enter proper file Extension",
-                    CensusAnalyserException.ExceptionType.TYPE_EXTENSION_WRONG);
-        }
-        try (Reader reader = Files.newBufferedReader(Paths.get(csvFilePath[0]));) {
-            ICSVBuilder csvBuilder = CSVBuilderFactory.createCSVBuilder();
-            Iterator<E> csvfileIterator = csvBuilder.getCSVFileIterator(reader, censusCSVClass);
-            Iterable<E> csvIterable = () -> csvfileIterator;
-            if (censusCSVClass.getName().equals("censusanalyser.IndiaCensusCSV")) {
-                StreamSupport.stream(csvIterable.spliterator(), false)
-                        .map(IndiaCensusCSV.class::cast)
-                        .forEach(censusCSV -> censusMap.put(censusCSV.state, new CensusDAO(censusCSV)));
-            }else  if (censusCSVClass.getName().equals("censusanalyser.USCensusCSV")) {
-                StreamSupport.stream(csvIterable.spliterator(), false)
-                        .map(USCensusCSV.class::cast)
-                        .forEach(censusCSV -> censusMap.put(censusCSV.state, new CensusDAO(censusCSV)));
-            }
-             if(csvFilePath.length==1) return censusMap;
-              this.loadIndianStateCodeDataMap(censusMap,csvFilePath[1]);
-             return censusMap;
-        } catch (IOException e) {
-            throw new CensusAnalyserException(e.getMessage(),
-                    CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
-        } catch (RuntimeException e) {
-            throw new CensusAnalyserException("Enter delimiter in betwwen",
-                    CensusAnalyserException.ExceptionType.DELIMITER_HEADER_INCORRECTINFILE);
-        } catch (CSVBuilderException e) {
-            throw new CensusAnalyserException(e.getMessage(), e.type.name());
-        }
+        if (csvFilePath.length>1)
+            return this.loadIndianStateCodeDataMap(censusMap,csvFilePath[1]);
+        return super.loadCensusData(IndiaCensusCSV.class,csvFilePath[0]);
+
     }
-    private int loadIndianStateCodeDataMap(Map<String, CensusDAO> censusMap, String csvFilePath) throws CensusAnalyserException {
+
+    private  Map<String,CensusDAO>  loadIndianStateCodeDataMap(Map<String,CensusDAO> censusMap,String csvFilePath) throws CensusAnalyserException {
         if (!csvFilePath.contains(".csv"))
             throw new CensusAnalyserException("Enter proper file Extension",
                     CensusAnalyserException.ExceptionType.TYPE_EXTENSION_WRONG);
@@ -63,7 +31,7 @@ public class CensusLoader {
             Iterable<IndiaStateCodeCSV> csvIterable = () -> stateCSVIterator;
             StreamSupport.stream(csvIterable.spliterator(), false)
                     .forEach(censusCSV -> censusMap.put(censusCSV.state, new CensusDAO(censusCSV)));
-            return censusMap.size();
+            return censusMap;
         } catch (IOException e) {
             throw new CensusAnalyserException(e.getMessage(),
                     CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
@@ -74,5 +42,4 @@ public class CensusLoader {
             throw new CensusAnalyserException(e.getMessage(), e.type.name());
         }
     }
-
 }

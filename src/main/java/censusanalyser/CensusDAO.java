@@ -7,14 +7,10 @@ public class CensusDAO {
     public double totalArea;
     public String state;
     public String stateCode;
-    public   int tin;
-    public   int srNo;
 
 
     public CensusDAO(IndiaStateCodeCSV indiaStateCodeCSV) {
-        this.srNo=indiaStateCodeCSV.srNo;
         this.state=indiaStateCodeCSV.state;
-        this.tin=indiaStateCodeCSV.tin;
         this.stateCode=indiaStateCodeCSV.stateCode;
     }
 
@@ -32,6 +28,16 @@ public class CensusDAO {
         population= usCensusCSV.population;
         populationDensity=  usCensusCSV.populationDensity;
         totalArea= usCensusCSV.totalArea;
+
+    }
+
+    public Object getCensusDTO(CensusAnalyser.Country country,String... s) {
+        if (s.length==1)
+            return new IndiaStateCodeCSV(state,stateCode);
+        if (country.equals(CensusAnalyser.Country.US))
+            return new USCensusCSV(state,stateCode,population,populationDensity,totalArea);
+        else
+            return new IndiaCensusCSV(state,population,populationDensity,totalArea);
 
     }
 }
